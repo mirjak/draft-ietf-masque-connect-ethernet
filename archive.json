@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-04-14T01:25:21.575789+00:00",
+  "timestamp": "2024-04-16T01:04:51.263613+00:00",
   "repo": "ietf-wg-masque/draft-ietf-masque-connect-ethernet",
   "labels": [
     {
@@ -162,15 +162,15 @@
       "id": "I_kwDOJbp2N859s3Uu",
       "title": "Why limit to Ethernet? connect-pseudowire?",
       "url": "https://github.com/ietf-wg-masque/draft-ietf-masque-connect-ethernet/issues/4",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "asedeno",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Should this draft be made more generic, and draw more inspiration from the PWE3 WG [^1]?\r\n\r\nAt IETF-118, it was suggested we limit scope, build our minimum viable product, and define our extension points.\r\n\r\nThe `connect-ethernet` method is definitely limiting scope, and invites a plethora of `connect-${my_favorite_L2_protocol_here}` followup documents.\r\n\r\nA `connect-pseudowire` method and associated frame-type negotiation, with an included Ethernet example, could be later extended to support other Layer 2 Protocols. If we go down this path, we should consider the work of the PWE3 WG.\r\n\r\nIndependent of this, I'll be opening some other issues that reference the work of the PWE3 WG.\r\n\r\n[^1]: https://datatracker.ietf.org/wg/pwe3/about/",
       "createdAt": "2024-01-30T22:32:24Z",
-      "updatedAt": "2024-03-18T04:18:06Z",
-      "closedAt": null,
+      "updatedAt": "2024-04-15T14:39:05Z",
+      "closedAt": "2024-04-15T14:39:04Z",
       "comments": [
         {
           "author": "DavidSchinazi",
@@ -272,9 +272,17 @@
       "labels": [],
       "body": "Another PWE3-related topic.\r\n\r\nhttps://www.rfc-editor.org/rfc/rfc4448.html#section-4 describes several modes for encapsulating Ethernet over MPLS. Among those are\r\n- Ethernet Tagged Mode\r\n- Ethernet Raw Mode\r\n\r\nhttps://www.rfc-editor.org/rfc/rfc4448.html#section-4.4.1 compares Raw Mode and Tagged mode.\r\n\r\nThe distinguishing feature is the handling of VLAN tags, specifically service-delimiting tags set by the service provider.\r\n\r\nIn raw mode, service-delimiting tags are stripped prior to encapsulation, and other VLAN tags are ignored and transmitted as is.\r\nIn tagged mode, service-delimiting tags are not stripped, may need to be added if absent, and are processed by the endpoints.\r\n\r\nPresently, this draft does not consider VLAN tags, and operates in something closer to raw mode, delegating any details related to VLAN tags up to the user. Do we need to provide any special consideration for VLAN tagging here, or is this delegation sufficient?",
       "createdAt": "2024-01-30T22:54:10Z",
-      "updatedAt": "2024-01-30T22:54:10Z",
+      "updatedAt": "2024-04-15T14:58:34Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "asedeno",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm going to add text to the effect of: we'll blindly carry VLAN tags as part of Ethernet frames, but recommend avoiding carrying VLAN-tagged frames and using separate connect-ethernet connections for each VLAN.",
+          "createdAt": "2024-04-15T14:58:33Z",
+          "updatedAt": "2024-04-15T14:58:33Z"
+        }
+      ]
     }
   ],
   "pulls": []
