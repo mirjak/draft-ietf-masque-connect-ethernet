@@ -4,8 +4,8 @@
 
 Multiplexed Application Substrate over QUIC Encryption      A. R. Sedeño
 Internet-Draft                                                Google LLC
-Intended status: Standards Track                         19 October 2023
-Expires: 21 April 2024
+Intended status: Standards Track                           17 April 2024
+Expires: 19 October 2024
 
 
                        Proxying Ethernet in HTTP
@@ -52,11 +52,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 April 2024.
+   This Internet-Draft will expire on 19 October 2024.
 
 Copyright Notice
 
-   Copyright (c) 2023 IETF Trust and the persons identified as the
+   Copyright (c) 2024 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -528,8 +528,8 @@ Table of Contents
 10.2.  Updates to the MASQUE URI Suffixes Registry
 
    This document will request IANA to register "ethernet" in the MASQUE
-   URI Suffixes Registry maintained at $IANA_URL_TBD, created by
-   CONNECT-IP [CONNECT-IP].
+   URI Suffixes Registry maintained at
+   <https://www.iana.org/assignments/masque>, created by [CONNECT-IP].
 
            +==============+===================+===============+
            | Path Segment | Description       | Reference     |
