@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-04-16T01:04:51.263613+00:00",
+  "timestamp": "2024-04-18T01:05:08.936451+00:00",
   "repo": "ietf-wg-masque/draft-ietf-masque-connect-ethernet",
   "labels": [
     {
@@ -285,5 +285,32 @@
       ]
     }
   ],
-  "pulls": []
+  "pulls": [
+    {
+      "number": 9,
+      "id": "PR_kwDOJbp2N85s9Woa",
+      "title": "Add performance considerations for VLANs",
+      "url": "https://github.com/ietf-wg-masque/draft-ietf-masque-connect-ethernet/pull/9",
+      "state": "OPEN",
+      "author": "asedeno",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "closes #8",
+      "createdAt": "2024-04-17T18:24:29Z",
+      "updatedAt": "2024-04-17T18:24:29Z",
+      "baseRepository": "ietf-wg-masque/draft-ietf-masque-connect-ethernet",
+      "baseRefName": "main",
+      "baseRefOid": "1dce091f280343e069a259d161ca61adbb1a2b13",
+      "headRepository": "asedeno/draft-ietf-masque-connect-ethernet",
+      "headRefName": "vlans",
+      "headRefOid": "cdc9ffbca57a338a149e13ff51bf399a10a47990",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    }
+  ]
 }
