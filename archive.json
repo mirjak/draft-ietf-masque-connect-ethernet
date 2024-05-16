@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-05-14T01:08:25.544964+00:00",
+  "timestamp": "2024-05-16T01:08:48.966989+00:00",
   "repo": "ietf-wg-masque/draft-ietf-masque-connect-ethernet",
   "labels": [
     {
@@ -324,19 +324,60 @@
       "labels": [],
       "body": "closes #1",
       "createdAt": "2024-05-10T17:25:08Z",
-      "updatedAt": "2024-05-10T17:25:08Z",
+      "updatedAt": "2024-05-14T22:13:25Z",
       "baseRepository": "ietf-wg-masque/draft-ietf-masque-connect-ethernet",
       "baseRefName": "main",
       "baseRefOid": "1dce091f280343e069a259d161ca61adbb1a2b13",
       "headRepository": "asedeno/draft-ietf-masque-connect-ethernet",
       "headRefName": "mtu",
-      "headRefOid": "e81eb647acbc7c809e9c8539e72f4cfa0d7bd2fc",
+      "headRefOid": "74b31160a51453e501415ba136b07c7bd2677546",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJbp2N856kr0t",
+          "commit": {
+            "abbreviatedOid": "e81eb64"
+          },
+          "author": "DavidSchinazi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-05-14T20:47:16Z",
+          "updatedAt": "2024-05-14T20:47:55Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "nit: it's best to avoid lowercase RFC 2119 terms when there's an easy replacement\r\n\r\n```suggestion\r\nframes can be transmitted in QUIC DATAGRAM frames. Since these frames cannot be\r\n```",
+              "createdAt": "2024-05-14T20:47:16Z",
+              "updatedAt": "2024-05-14T20:47:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbp2N856lG1F",
+          "commit": {
+            "abbreviatedOid": "e81eb64"
+          },
+          "author": "asedeno",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-05-14T22:13:25Z",
+          "updatedAt": "2024-05-14T22:13:25Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "SGTM",
+              "createdAt": "2024-05-14T22:13:25Z",
+              "updatedAt": "2024-05-14T22:13:25Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
