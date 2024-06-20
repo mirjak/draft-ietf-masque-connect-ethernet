@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-06-18T01:12:11.767673+00:00",
+  "timestamp": "2024-06-20T01:10:25.214763+00:00",
   "repo": "ietf-wg-masque/draft-ietf-masque-connect-ethernet",
   "labels": [
     {
@@ -145,7 +145,7 @@
       "labels": [],
       "body": "At IETF-118 it was suggested we should take a solid stance on whether or not this should be used as a transport for E-VPN.\r\nTraditionally, E-VPN goes over VXLAN or NVGRE, which are not authenticated. This could provide a strongly encrypted and authenticated transport for data center interconnect.\r\n\r\nI don't have an opinion here yet beyond thinking that E-VPN looks big and outside of my own scope of experience. I would want to understand more about where and how it is used.\r\n\r\nhttps://en.wikipedia.org/wiki/Ethernet_VPN\r\n[RFC 7209 - Requirements for Ethernet VPN (EVPN)](https://datatracker.ietf.org/doc/html/rfc7209)\r\n\r\nFrom the l2vpn final charter[^1]:\r\n\r\n> Ethernet VPN (E-VPN) - An enhanced Layer-2 service that emulates an Ethernet (V)LAN across a PSN. E-VPN supports load-sharing across multiple connections from a Layer-2 site to an L2VPN service. E-VPN is primarily targeted to support large-scale L2VPNs with resiliency requirements not satisfied by other L2VPN solutions.\r\n\r\n[^1]: https://datatracker.ietf.org/doc/charter-ietf-l2vpn/",
       "createdAt": "2024-01-30T22:20:07Z",
-      "updatedAt": "2024-01-31T02:40:50Z",
+      "updatedAt": "2024-06-19T18:01:09Z",
       "closedAt": null,
       "comments": [
         {
@@ -154,6 +154,13 @@
           "body": "I believe E-VPN can also use Geneve (RFC 8926 Geneve: Generic Network Virtualization Encapsulation, https://www.rfc-editor.org/rfc/rfc8926.html)\r\n\r\nI also agree that I think E-VPN is probably out-of-scope initially? But nothing stops a future draft from developing E-VPN over connect-ethernet.",
           "createdAt": "2024-01-31T02:40:49Z",
           "updatedAt": "2024-01-31T02:40:49Z"
+        },
+        {
+          "author": "dabernie",
+          "authorAssociation": "NONE",
+          "body": "Personally, I would have a tendency NOT to try and match EVPN architecture. Use case for connect-ethernet would be more around \"how to leverage Application/QUIC based approach on doing tunnelling\" instead of current model. ",
+          "createdAt": "2024-06-19T18:01:08Z",
+          "updatedAt": "2024-06-19T18:01:08Z"
         }
       ]
     },
