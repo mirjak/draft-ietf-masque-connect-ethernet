@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-06-27T01:12:05.972243+00:00",
+  "timestamp": "2024-06-30T01:18:02.804093+00:00",
   "repo": "ietf-wg-masque/draft-ietf-masque-connect-ethernet",
   "labels": [
     {
@@ -55,15 +55,15 @@
       "id": "I_kwDOJbp2N859ssrN",
       "title": "What to do about MTU and Fragmentation",
       "url": "https://github.com/ietf-wg-masque/draft-ietf-masque-connect-ethernet/issues/1",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "asedeno",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Standard 802.3 Ethernet frames can be up to 1518 octets in length, 1522 octets when tagged (802.1Q VLANs), and 1526 octets when double-tagged (802.1ad Stacked VLANs).\r\n\r\nThis includes up to 1500 octets of payload, and the L2 framing itself:\r\n\r\n```\r\n- 6 octets       - Destination MAC\r\n- 6 octets       - Source MAC\r\n- (4 octets)     - VLAN Tag (802.1Q)\r\n- (4 octets)     - VLAN Stacking (802.1ad, or QinQ)\r\n- 2 octets       - Ethertype or Length\r\n- 46-1500 octets - Payload\r\n- 4 octets       - Frame Check Sequence (CRC)\r\n```\r\n\r\nThe CRC can be dropped and recomputed. The rest of the framing must be transmitted in one form or another. Assuming a maximal payload plus the required 14 octets of header, and no VLAN tags, we may need to carry a maximal payload of 1514 octets.\r\n\r\nWhen using this draft over HTTP/1.1 or HTTP/2, the underlying transport is TCP, which provides a reliable and ordered stream of octets. Ethernet Frames are transmitted using HTTP Datagrams and the Capsule Protcol defined in RFC9297, and will naturally be fragmented as needed.\r\n\r\nWhen using this draft over HTTP/3, things get interesting. Ideally, Ethernet frames would be transmitted over HTTP Datagrams using QUIC Datagrams (RFC9221). Such Datagrams are required to fit inside a QUIC Packet, and are therefore limited by the underlying network MTU and further limited by the overhead of H3/QUIC/UDP/IP.\r\n\r\nTrivially, if an Ethernet frame is too large to be transmitted this way, we could fall back to Capsules over the connection's HTTP stream. However, this comes with the cost of Head of Line blocking for all frames so transmitted in addition to the overhead of fragmentation.\r\n\r\nI think we should recommend some form of MTU negotiation such that Ethernet frames being proxied are guaranteed to fit within the MTUs of both attached networks and the maximum size H3 Datagram for the connection between them.\r\n\r\nAn added complication is that the path may not be fixed, and so the path MTU may vary over time, and we'll need to think about how to handle that too.\r\n\r\nIf an operator is in full control of the network and both Ethernet proxying endpoints, they should adjust the underlying MTU to support whatever proxied MTU they require.\r\n\r\nWhen the underlying network MTU is not adjustable and the operator requires a larger MTU than would be supported by the underlying network, fragmentation is necessitated.\r\n\r\n- What knobs do we need to provide here?\r\n- What should we recommend with regards to how to tune those knobs?\r\n- What warnings labels should we attach to them?\r\n\r\nLet's discuss.",
       "createdAt": "2024-01-30T22:06:23Z",
-      "updatedAt": "2024-03-19T06:49:30Z",
-      "closedAt": null,
+      "updatedAt": "2024-06-29T22:30:13Z",
+      "closedAt": "2024-06-29T22:30:13Z",
       "comments": [
         {
           "author": "DavidSchinazi",
@@ -114,15 +114,15 @@
       "id": "I_kwDOJbp2N859steU",
       "title": "MAC Address filtering",
       "url": "https://github.com/ietf-wg-masque/draft-ietf-masque-connect-ethernet/issues/2",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "asedeno",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "At IETF 118, some kind of MAC address filtering was suggested. Perhaps a client will only ever present traffic from a single MAC address, so that should be registered as part of the connection and packets from a different source address should be dropped, possibly terminating the connection.\r\n\r\nThis could be useful for clients proxying a single user/node, but less so for clients bridging whole networks.\r\n\r\nDo we want to support this? If so, how should it be configured?",
       "createdAt": "2024-01-30T22:08:35Z",
-      "updatedAt": "2024-01-31T02:39:37Z",
-      "closedAt": null,
+      "updatedAt": "2024-06-29T22:20:24Z",
+      "closedAt": "2024-06-29T22:20:23Z",
       "comments": [
         {
           "author": "achernya",
@@ -130,6 +130,13 @@
           "body": "Perhaps I'm misremembering, but I thought we had some affirmative nods that this could be a future extension?",
           "createdAt": "2024-01-31T02:39:36Z",
           "updatedAt": "2024-01-31T02:39:36Z"
+        },
+        {
+          "author": "asedeno",
+          "authorAssociation": "COLLABORATOR",
+          "body": "If folks want this, I'm not opposed to accepting a PR around it. Otherwise, future extension it is.",
+          "createdAt": "2024-06-29T22:20:23Z",
+          "updatedAt": "2024-06-29T22:20:23Z"
         }
       ]
     },
@@ -138,15 +145,15 @@
       "id": "I_kwDOJbp2N859sy6m",
       "title": "E-VPN - leverage or discourage?",
       "url": "https://github.com/ietf-wg-masque/draft-ietf-masque-connect-ethernet/issues/3",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "asedeno",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "At IETF-118 it was suggested we should take a solid stance on whether or not this should be used as a transport for E-VPN.\r\nTraditionally, E-VPN goes over VXLAN or NVGRE, which are not authenticated. This could provide a strongly encrypted and authenticated transport for data center interconnect.\r\n\r\nI don't have an opinion here yet beyond thinking that E-VPN looks big and outside of my own scope of experience. I would want to understand more about where and how it is used.\r\n\r\nhttps://en.wikipedia.org/wiki/Ethernet_VPN\r\n[RFC 7209 - Requirements for Ethernet VPN (EVPN)](https://datatracker.ietf.org/doc/html/rfc7209)\r\n\r\nFrom the l2vpn final charter[^1]:\r\n\r\n> Ethernet VPN (E-VPN) - An enhanced Layer-2 service that emulates an Ethernet (V)LAN across a PSN. E-VPN supports load-sharing across multiple connections from a Layer-2 site to an L2VPN service. E-VPN is primarily targeted to support large-scale L2VPNs with resiliency requirements not satisfied by other L2VPN solutions.\r\n\r\n[^1]: https://datatracker.ietf.org/doc/charter-ietf-l2vpn/",
       "createdAt": "2024-01-30T22:20:07Z",
-      "updatedAt": "2024-06-19T18:01:09Z",
-      "closedAt": null,
+      "updatedAt": "2024-06-29T22:12:55Z",
+      "closedAt": "2024-06-29T22:12:55Z",
       "comments": [
         {
           "author": "achernya",
@@ -161,6 +168,13 @@
           "body": "Personally, I would have a tendency NOT to try and match EVPN architecture. Use case for connect-ethernet would be more around \"how to leverage Application/QUIC based approach on doing tunnelling\" instead of current model. ",
           "createdAt": "2024-06-19T18:01:08Z",
           "updatedAt": "2024-06-19T18:01:08Z"
+        },
+        {
+          "author": "asedeno",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I don't think we need to say anything about E-VPN in this draft.",
+          "createdAt": "2024-06-29T22:12:55Z",
+          "updatedAt": "2024-06-29T22:12:55Z"
         }
       ]
     },
@@ -200,15 +214,15 @@
       "id": "I_kwDOJbp2N859s4Um",
       "title": "Why are we transmitting the Frame Check Sequence?",
       "url": "https://github.com/ietf-wg-masque/draft-ietf-masque-connect-ethernet/issues/5",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "asedeno",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Section 6 of the draft states that Context ID 0 indicates that the Datagram carries\r\n\r\n> a full Layer 2 Ethernet Frame (from the MAC destination field until the last byte of the Frame check sequence field).\r\n\r\nThe Frame check sequence is a four octet CRC that we could recalculate on the receiving Ethernet proxying endpoint. If we drop and recompute it, we eke out 4 additional octets of payload.\r\n",
       "createdAt": "2024-01-30T22:34:04Z",
-      "updatedAt": "2024-01-31T02:41:53Z",
-      "closedAt": null,
+      "updatedAt": "2024-06-29T22:18:54Z",
+      "closedAt": "2024-06-29T22:18:54Z",
       "comments": [
         {
           "author": "achernya",
@@ -216,6 +230,13 @@
           "body": "In CONNECT-IP we left header compression to future context IDs. I think you could do the same here? You're trading off space vs compute power.",
           "createdAt": "2024-01-31T02:41:52Z",
           "updatedAt": "2024-01-31T02:41:52Z"
+        },
+        {
+          "author": "asedeno",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Sure, let's return to this in future header compression work if that happens.",
+          "createdAt": "2024-06-29T22:18:54Z",
+          "updatedAt": "2024-06-29T22:18:54Z"
         }
       ]
     },
@@ -224,15 +245,15 @@
       "id": "I_kwDOJbp2N859s5lY",
       "title": "Frame delivery order?",
       "url": "https://github.com/ietf-wg-masque/draft-ietf-masque-connect-ethernet/issues/6",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "asedeno",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Encapsulation Methods for Transport of Ethernet over MPLS Networks [RFC4448] Section 4.4.3, \"Frame Ordering,\" is interesting.\r\n\r\nhttps://www.rfc-editor.org/rfc/rfc4448.html#section-4.4.3\r\n\r\n> In general, applications running over Ethernet do not require strict frame ordering.  However, the IEEE definition of 802.3 [802.3] requires that frames from the same conversation in the context of link aggregation (clause 43) are delivered in sequence.\r\n\r\nPWE3 provides knobs[^1] to optionally enable frame sequencing and timing if required. Perhaps our this draft should similarly provide for optional frame ordering, and if made more generic than Ethernet, also consider providing more of the features in PWE3.\r\n\r\n[^1]: https://www.rfc-editor.org/rfc/rfc3985.html#section-5.2",
       "createdAt": "2024-01-30T22:38:10Z",
-      "updatedAt": "2024-01-31T02:42:53Z",
-      "closedAt": null,
+      "updatedAt": "2024-06-29T22:16:14Z",
+      "closedAt": "2024-06-29T22:16:14Z",
       "comments": [
         {
           "author": "achernya",
@@ -272,15 +293,15 @@
       "id": "I_kwDOJbp2N859s-gS",
       "title": "Special considerations for VLANs",
       "url": "https://github.com/ietf-wg-masque/draft-ietf-masque-connect-ethernet/issues/8",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "asedeno",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Another PWE3-related topic.\r\n\r\nhttps://www.rfc-editor.org/rfc/rfc4448.html#section-4 describes several modes for encapsulating Ethernet over MPLS. Among those are\r\n- Ethernet Tagged Mode\r\n- Ethernet Raw Mode\r\n\r\nhttps://www.rfc-editor.org/rfc/rfc4448.html#section-4.4.1 compares Raw Mode and Tagged mode.\r\n\r\nThe distinguishing feature is the handling of VLAN tags, specifically service-delimiting tags set by the service provider.\r\n\r\nIn raw mode, service-delimiting tags are stripped prior to encapsulation, and other VLAN tags are ignored and transmitted as is.\r\nIn tagged mode, service-delimiting tags are not stripped, may need to be added if absent, and are processed by the endpoints.\r\n\r\nPresently, this draft does not consider VLAN tags, and operates in something closer to raw mode, delegating any details related to VLAN tags up to the user. Do we need to provide any special consideration for VLAN tagging here, or is this delegation sufficient?",
       "createdAt": "2024-01-30T22:54:10Z",
-      "updatedAt": "2024-04-15T14:58:34Z",
-      "closedAt": null,
+      "updatedAt": "2024-06-29T22:30:13Z",
+      "closedAt": "2024-06-29T22:30:13Z",
       "comments": [
         {
           "author": "asedeno",
@@ -298,24 +319,26 @@
       "id": "PR_kwDOJbp2N85s9Woa",
       "title": "Add performance considerations for VLANs",
       "url": "https://github.com/ietf-wg-masque/draft-ietf-masque-connect-ethernet/pull/9",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "asedeno",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "closes #8",
       "createdAt": "2024-04-17T18:24:29Z",
-      "updatedAt": "2024-04-17T18:24:29Z",
+      "updatedAt": "2024-06-29T22:30:13Z",
       "baseRepository": "ietf-wg-masque/draft-ietf-masque-connect-ethernet",
       "baseRefName": "main",
       "baseRefOid": "1dce091f280343e069a259d161ca61adbb1a2b13",
       "headRepository": "asedeno/draft-ietf-masque-connect-ethernet",
       "headRefName": "vlans",
       "headRefOid": "cdc9ffbca57a338a149e13ff51bf399a10a47990",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-06-29T22:30:13Z",
+      "mergedAt": "2024-06-29T22:30:13Z",
+      "mergedBy": "asedeno",
+      "mergeCommit": {
+        "oid": "822fa6146d10841ee59e6c5b1bae951f9f5dc2ba"
+      },
       "comments": [],
       "reviews": []
     },
@@ -324,24 +347,26 @@
       "id": "PR_kwDOJbp2N85vHr1v",
       "title": "Add text concerning MTU and fragmentation",
       "url": "https://github.com/ietf-wg-masque/draft-ietf-masque-connect-ethernet/pull/10",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "asedeno",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "closes #1",
       "createdAt": "2024-05-10T17:25:08Z",
-      "updatedAt": "2024-05-14T22:13:25Z",
+      "updatedAt": "2024-06-29T22:30:13Z",
       "baseRepository": "ietf-wg-masque/draft-ietf-masque-connect-ethernet",
       "baseRefName": "main",
       "baseRefOid": "1dce091f280343e069a259d161ca61adbb1a2b13",
       "headRepository": "asedeno/draft-ietf-masque-connect-ethernet",
       "headRefName": "mtu",
       "headRefOid": "74b31160a51453e501415ba136b07c7bd2677546",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-06-29T22:30:13Z",
+      "mergedAt": "2024-06-29T22:30:13Z",
+      "mergedBy": "asedeno",
+      "mergeCommit": {
+        "oid": "822fa6146d10841ee59e6c5b1bae951f9f5dc2ba"
+      },
       "comments": [],
       "reviews": [
         {
